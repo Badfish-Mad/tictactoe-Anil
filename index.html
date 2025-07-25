@@ -179,7 +179,7 @@
       setTimeout(() => {
         banner.style.display = 'none';
         if (callback) callback();
-      }, 2000);
+      }, 500); // ✅ Changed to 0.5 seconds
     }
 
     function hideGameUI() {
