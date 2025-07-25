@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tic Tac Toe - No Draw</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #6a0dad;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    h1 {
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    #game {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      gap: 10px;
+    }
+
+    .cell {
+      width: 100px;
+      height: 100px;
+      background-color: white;
+      font-size: 36px;
+      font-weight: bold;
+      color: #6a0dad;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+
+    #resetBtn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: white;
+      color: #6a0dad;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #banner {
+      position: fixed;
+      top: 30%;
+      background-color: white;
+      color: #6a0dad;
+      font-size: 32px;
+      padding: 20px 40px;
+      border-radius: 15px;
+      display: none;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Tic Tac Toe</h1>
+  <div id="game"></div>
+  <button id="resetBtn">Reset Game</button>
+  <div id="banner">You have been Anil'd</div>
+
+  <script>
+    const gameBoard = document.getElementById('game');
+    const resetBtn = document.getElementById('resetBtn');
+    const banner = document.getElementById('banner');
+
+    let board = Array(9).fill(null);
+    let currentPlayer = 'X';
+    let gameOver = false;
+
+    function createBoard() {
+      gameBoard.innerHTML = '';
+      board.forEach((cell, index) => {
+        const div = document.createElement('div');
+        div.classList.add('cell');
+        div.dataset.index = index;
+        div.innerText = cell || '';
+        div.addEventListener('click', handleClick);
+        gameBoard.appendChild(div);
+      });
+    }
+
+    function handleClick(e) {
+      const index = e.target.dataset.index;
+
+      if (board[index] || gameOver) return;
+
+      board[index] = currentPlayer;
+      createBoard();
+
+      if (checkWinner()) {
+        gameOver = true;
+        banner.style.display = 'block';
+        return;
+      }
+
+      // Prevent draw — clear board if full and no winner
+      if (!board.includes(null)) {
+        setTimeout(() => {
+          alert("No draw allowed! Restarting...");
+          resetGame();
+        }, 200);
+        return;
+      }
+
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    }
+
+    function checkWinner() {
+      const winCombos = [
+        [0,1,2],[3,4,5],[6,7,8],
+        [0,3,6],[1,4,7],[2,5,8],
+        [0,4,8],[2,4,6]
+      ];
+
+      return winCombos.some(combo => {
+        const [a, b, c] = combo;
+        if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+          return true;
+        }
+        return false;
+      });
+    }
+
+    function resetGame() {
+      board = Array(9).fill(null);
+      currentPlayer = 'X';
+      gameOver = false;
+      banner.style.display = 'none';
+      createBoard();
+    }
+
+    resetBtn.addEventListener('click', resetGame);
+
+    createBoard();
+  </script>
+</body>
+</html>
