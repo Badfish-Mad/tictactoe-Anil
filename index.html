@@ -55,6 +55,8 @@
     #banner {
       position: fixed;
       top: 30%;
+      left: 50%;
+      transform: translateX(-50%);
       background-color: white;
       color: #6a0dad;
       font-size: 32px;
@@ -62,6 +64,7 @@
       border-radius: 15px;
       display: none;
       z-index: 999;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
     }
   </style>
 </head>
@@ -70,7 +73,7 @@
   <h1>Tic Tac Toe</h1>
   <div id="game"></div>
   <button id="resetBtn">Reset Game</button>
-  <div id="banner">Your Phone is now Hacked</div>
+  <div id="banner"></div>
 
   <script>
     const gameBoard = document.getElementById('game');
@@ -103,12 +106,10 @@
 
       if (checkWinner()) {
         gameOver = true;
-        banner.innerText = "Your Phone is now Hacked"; // updated message
-        banner.style.display = 'block';
+        showBanner("Your Phone is now Hacked");
         return;
       }
 
-      // Prevent draw — clear board if full and no winner
       if (!board.includes(null)) {
         setTimeout(() => {
           alert("No draw allowed! Restarting...");
@@ -136,8 +137,22 @@
       });
     }
 
+    function showBanner(message) {
+      banner.innerText = message;
+      banner.style.display = 'block';
+    }
+
     function resetGame() {
       board = Array(9).fill(null);
       currentPlayer = 'X';
       gameOver = false;
       banner.style.display = 'none';
+      createBoard();
+    }
+
+    resetBtn.addEventListener('click', resetGame);
+
+    createBoard();
+  </script>
+</body>
+</html>
