@@ -70,7 +70,7 @@
   <h1>Tic Tac Toe</h1>
   <div id="game"></div>
   <button id="resetBtn">Reset Game</button>
-  <div id="banner">You have been Anil'd</div>
+  <div id="banner">Your Phone is now Hacked</div>
 
   <script>
     const gameBoard = document.getElementById('game');
@@ -103,6 +103,7 @@
 
       if (checkWinner()) {
         gameOver = true;
+        banner.innerText = "Your Phone is now Hacked"; // updated message
         banner.style.display = 'block';
         return;
       }
@@ -140,12 +141,3 @@
       currentPlayer = 'X';
       gameOver = false;
       banner.style.display = 'none';
-      createBoard();
-    }
-
-    resetBtn.addEventListener('click', resetGame);
-
-    createBoard();
-  </script>
-</body>
-</html>
