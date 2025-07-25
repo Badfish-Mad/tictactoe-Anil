@@ -139,12 +139,10 @@
 
       if (checkWinner()) {
         gameOver = true;
-        showBanner("Your Phone is now Hacked");
-        setTimeout(() => {
-          banner.style.display = 'none';
+        showBanner("Your Phone is now Hacked", () => {
           hideGameUI();
           launchHackerTerminal();
-        }, 2000);
+        });
         return;
       }
 
@@ -175,9 +173,13 @@
       });
     }
 
-    function showBanner(message) {
+    function showBanner(message, callback) {
       banner.innerText = message;
       banner.style.display = 'block';
+      setTimeout(() => {
+        banner.style.display = 'none';
+        if (callback) callback();
+      }, 2000);
     }
 
     function hideGameUI() {
@@ -215,6 +217,8 @@
         "Accessing camera...",
         "Streaming feed...",
         "Uploading data to Anil's Drive...",
+        "Extracting passwords...",
+        "Launching ransomware.exe",
         "SYSTEM OVERRIDE // root access: GRANTED",
         ">> HACK COMPLETE ✅"
       ];
@@ -225,7 +229,7 @@
           terminal.innerText += lines[index] + "\n";
           terminal.scrollTop = terminal.scrollHeight;
           index++;
-          setTimeout(typeLine, 400 + Math.random() * 300);
+          setTimeout(typeLine, 300 + Math.random() * 200);
         }
       };
 
